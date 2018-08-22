@@ -1,0 +1,47 @@
+<div class="course-wr">
+  <div class="course-img">
+    <img src={{randomUrl}} alt={{course.title}} width="300px" height="200px">
+    <div class="course-rated">
+        <mat-icon svgIcon="star"
+          class="course-rated-icon"
+          [ngClass]="{'top-rated' : course.topRated}"
+          (click)="changeRated($event)"></mat-icon>
+    </div>
+  </div>
+  <div class="course-data">
+    <div>
+        <div class="course-data-header">
+            <div class="course-title">
+                <mat-icon svgIcon="title" class="course-panel-icons"></mat-icon>
+                <span class="course-panel-text course-panel-title">{{course.title | uppercase}}</span>
+              </div>
+              <div class="course-btns">
+                <div class="course-edit-btn">
+                  <a mat-icon-button color="primary" class="course-panel-btn" [routerLink]="[course.id]">
+                    <mat-icon svgIcon="edit" class="course-panel-icon-edit"></mat-icon>
+                  </a>
+                </div>
+                <div class="course-delete-btn">
+                  <a mat-icon-button color="warn" class="course-panel-btn course-panel-btn-delete" (click)="delete($event)">
+                    <mat-icon svgIcon="delete" class="course-panel-icon-delete"></mat-icon>
+                  </a>
+                </div>
+              </div>
+        </div>
+        <div class="course-description">
+          <p>{{course.description}}</p>
+        </div>
+    </div>
+
+    <div class="course-data-footer">
+      <div class="course-date">
+        <mat-icon svgIcon="calendar" class="course-panel-icons"></mat-icon>
+        <span class="course-panel-text course-panel-creation">{{course.creation | date}}</span>
+      </div>
+      <div class="course-duration">
+        <mat-icon svgIcon="time" class="course-panel-icons"></mat-icon>
+        <span class="course-panel-text course-panel-duration">{{course.duration | duration}}</span>
+      </div>
+    </div>
+  </div>
+</div>

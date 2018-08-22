@@ -1,0 +1,15 @@
+<div class="auth-container">
+  <mat-form-field>
+    <input matInput placeholder="Login" [(ngModel)]="userLogin">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Password" [(ngModel)]="userPassword" [type]="hide ? 'password' : 'text'">
+    <mat-icon matSuffix (click)="hide = !hide" class="password-icon">
+      <mat-icon svgIcon="visibility" *ngIf="hide"></mat-icon>
+      <mat-icon svgIcon="visibility-off" *ngIf="!hide"></mat-icon>
+    </mat-icon>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="btn-login" (click)="login()">Login</button>
+
+</div>

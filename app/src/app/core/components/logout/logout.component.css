@@ -1,0 +1,31 @@
+.user-logout-wr{
+  height: 100%;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.user-login-wr{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+}
+.user-icon{
+  width: 40px;
+  height: 40px;
+  color: #3F51B5;
+}
+.user-login{
+  margin: 0 0 0 10px;
+  font-size: 20px;
+  line-height: 40px;
+  font-weight: bold;
+}
+.user-menu{
+  width: 24px;
+  height: 24px;
+  color: #3F51B5;
+}

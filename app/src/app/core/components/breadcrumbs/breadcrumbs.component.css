@@ -1,0 +1,9 @@
+.breadcrumbs-wr{
+  padding: 10px 20px;
+  color: #3F51B5;
+  font-weight: bold;
+  font-size: 18px;
+}
+.breadcrumbs-link{
+  text-decoration: none;
+}

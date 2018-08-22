@@ -1,0 +1,7 @@
+<div class="courses">
+  <app-toolbox (search)="search($event)"></app-toolbox>
+  <app-courses-list
+    (delete)="delete($event)"
+    [courses]="courses"></app-courses-list>
+  <app-pagination [length]="length" (getPaginationData)="getPaginationData($event)"></app-pagination>
+</div>

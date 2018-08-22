@@ -1,0 +1,18 @@
+<div class="toolbox">
+  <button mat-raised-button color="primary" 
+    class="btn-add-course"
+    (click)="openAddCoursePage()">
+    <mat-icon svgIcon="add"></mat-icon> 
+    <span> Add course</span>
+  </button>
+
+  <form class="search-form">
+    <mat-form-field class="search-full-width">
+      <input matInput
+        (keyup)="searchValue.next($event.target.value)"
+        placeholder="Search by title, description or date"
+        name="searchInput"
+        class="search-input">
+    </mat-form-field>
+  </form>
+</div>

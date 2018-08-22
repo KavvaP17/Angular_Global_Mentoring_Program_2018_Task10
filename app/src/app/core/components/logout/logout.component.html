@@ -1,0 +1,21 @@
+<div class="user-logout-wr">
+  <div class="user-login-wr">
+    <mat-icon svgIcon="user" class="user-icon"></mat-icon>
+    <span class="user-login">{{user.name.first}}</span>
+  </div>
+  <div class="user-menu-wr">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon svgIcon="arrow_down" class="user-menu"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon svgIcon="edit"></mat-icon>
+        <span>Edit profile</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon svgIcon="logout"></mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

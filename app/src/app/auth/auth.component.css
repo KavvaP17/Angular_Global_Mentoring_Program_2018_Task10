@@ -1,0 +1,13 @@
+.auth-container {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container > * {
+  width: 30%;
+}
+.btn-login{
+  margin-top: 30px;
+}

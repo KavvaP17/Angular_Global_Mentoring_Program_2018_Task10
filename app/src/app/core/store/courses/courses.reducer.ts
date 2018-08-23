@@ -8,12 +8,13 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
       return {...state, loading: true};
     }
     case CoursesActionTypes.GET_COURSES_SUCCESS: {
-      const data = [...(<Array<Course>>action.payload)];
+      const data = [...(<Array<Course>>action.payload.courses)];
       return {
         ...state,
         data,
         loading: false,
-        loaded: true
+        loaded: true,
+        length: action.payload.length
       };
     }
     case CoursesActionTypes.GET_COURSES_ERROR: {
@@ -40,6 +41,24 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
     case CoursesActionTypes.DELETE_COURSE: {
       console.log(CoursesActionTypes.DELETE_COURSE);
       return {...state};
+    }
+    case CoursesActionTypes.PAGINATION: {
+      return {
+        ...state,
+        page: action.payload.pageIndex,
+        pageSize: action.payload.pageSize,
+        length: action.payload.length
+      };
+    }
+    case CoursesActionTypes.SEARCH: {
+      if (action.payload === state.search) {
+        return state;
+      } 
+      return {
+        ...state,
+        page: 0,
+        search: action.payload
+      }
     }
     default:
       console.log('Default reducer!!!');

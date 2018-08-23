@@ -1,14 +1,17 @@
 import { Action } from '@ngrx/store';
 import { Course } from '../../../courses/models/course.model';
+import { PageEvent } from '@angular/material';
 
 export enum CoursesActionTypes {
   GET_COURSES = '[Courses] GET_COURSES',
   GET_COURSES_SUCCESS = '[Courses] GET_COURSES_SUCCESS',
   GET_COURSES_ERROR = '[Courses] GET_COURSES_ERROR',
-  GET_COURSE = '[Courses] Get Course',
-  ADD_COURSE = '[Courses] Add Course',
-  UPDATE_COURSE = '[Courses] Update Course',
-  DELETE_COURSE = '[Courses] Delete Course'
+  GET_COURSE = '[Courses] GET_COURSE',
+  ADD_COURSE = '[Courses] ADD_COURSE',
+  UPDATE_COURSE = '[Courses] UPDATE_COURSE',
+  DELETE_COURSE = '[Courses] DELETE_COURSE',
+  PAGINATION = '[Courses] PAGINATION',
+  SEARCH = '[Courses] SEARCH'
 }
 
 export class GetCourses implements Action {
@@ -17,7 +20,7 @@ export class GetCourses implements Action {
 
 export class GetCoursesSuccess implements Action {
   readonly type = CoursesActionTypes.GET_COURSES_SUCCESS;
-  constructor(public payload: Course[]) {}
+  constructor(public payload: any) {}
 }
 
 export class GetCoursesError implements Action {
@@ -45,6 +48,16 @@ export class DeleteCourse implements Action {
   constructor(public payload: Course) {}
 }
 
+export class Pagination implements Action {
+  readonly type = CoursesActionTypes.PAGINATION;
+  constructor(public payload: PageEvent) {}
+}
+
+export class Search implements Action {
+  readonly type = CoursesActionTypes.SEARCH;
+  constructor(public payload: string) {}
+}
+
 export type CoursesActions =
   GetCourses
   | GetCoursesSuccess
@@ -52,4 +65,6 @@ export type CoursesActions =
   | GetCourse
   | AddCourse
   | UpdateCourse
-  | DeleteCourse;
+  | DeleteCourse
+  | Pagination
+  | Search;

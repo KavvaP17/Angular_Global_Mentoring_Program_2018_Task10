@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { PageEvent, MatPaginator } from '@angular/material';
-import { PaginationService } from '../../services/pagination/pagination.service';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/store/app.state';
+import * as coursesActions from '../../../core/store/courses/courses.actions';
 
 @Component({
   selector: 'app-pagination',
@@ -10,32 +13,27 @@ import { Subscription } from 'rxjs';
 })
 export class PaginationComponent implements OnInit, AfterViewInit, OnDestroy {
 
-   // MatPaginator Inputs
-   @Input() length: Number;
-   @Output() getPaginationData = new EventEmitter<PageEvent>();
+   public length: Observable<number>;
+   public pageSize: Observable<number>;
+   public pageSizeOptions: Array<Number> = [5, 10, 15];
+   public pageEvent: PageEvent;
+   private paginatorEventSub: Subscription;
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
 
-   public pageSize;
-   public pageSizeOptions: Array<Number> = [5, 10, 15];
-
-   // MatPaginator Output
-   public pageEvent: PageEvent;
-
-   private paginatorEventSub: Subscription;
-
-  constructor(private paginationService: PaginationService) { }
+  constructor(private coursesStore: Store<AppState>) { }
 
   ngOnInit() {
-    this.paginationService.init(this.paginator);
-    this.pageSize = this.paginationService.getPageSize();
+    this.length = this.coursesStore
+      .select( state => state.courses.length);
+    this.pageSize = this.coursesStore
+      .select( state => state.courses.pageSize);
   }
 
   ngAfterViewInit() {
     this.paginatorEventSub = this.paginator.page.subscribe(() => {
-      this.paginationService.setPageSize(this.pageEvent.pageSize);
-      this.pageSize = this.paginationService.getPageSize();
-      this.getPaginationData.emit(this.pageEvent);
+      this.coursesStore.dispatch(new coursesActions.Pagination(this.pageEvent));
+      this.coursesStore.dispatch(new coursesActions.GetCourses());
     });
   }
 

@@ -5,11 +5,19 @@ export interface CoursesState {
   readonly loading: boolean;
   readonly loaded: boolean;
   readonly error: Error | string;
+  readonly page: number;
+  readonly pageSize: number;
+  readonly search: string;
+  readonly length: number;
 }
 
 export const initialCourseState: CoursesState = {
   data: [],
   loading: false,
   loaded: false,
-  error: null
+  error: null,
+  page: 0,
+  pageSize: 5,
+  search: '',
+  length: 0
 };

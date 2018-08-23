@@ -1,6 +1,6 @@
-<div class="courses-list" *ngFor="let course of courses | orderByDate ">
+<div class="courses-list" *ngFor="let course of courses$ | async">
   <app-course [course]="course" (deleteCourse)="deleteCourse($event)"></app-course>
 </div>
-<div *ngIf="courses.length === 0">
+<div *ngIf="(courses$ | async).length === 0">
   <p>{{coursesArrayEmptyMsg | uppercase}}</p>
 </div>

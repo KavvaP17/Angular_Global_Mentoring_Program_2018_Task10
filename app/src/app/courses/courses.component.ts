@@ -37,11 +37,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
               private coursesStore: Store<AppState>) { }
 
   ngOnInit() {
-    // console.log(this.coursesStore);
-    this.coursesState$ = this.coursesStore.pipe(select('courses'));
     this.coursesStore.dispatch(new coursesActions.GetCourses());
-    this.pageSize = this.paginationService.getPageSize();
-    this.getCourses();
   }
 
   public search(searchValue): void {
@@ -51,12 +47,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
       this.paginationService.reset();
       this.getCourses();
     }
-  }
-
-  public getPaginationData(pageEvent: PageEvent) {
-    this.pageIndex = pageEvent.pageIndex;
-    this.pageSize = pageEvent.pageSize;
-    this.getCourses();
   }
 
   public delete(id) {

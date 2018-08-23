@@ -1,5 +1,5 @@
-<mat-paginator [length]="length"
-              [pageSize]="pageSize"
+<mat-paginator [length]="length | async"
+              [pageSize]="pageSize | async"
               [pageSizeOptions]="pageSizeOptions"
               (page)="pageEvent = $event">
 </mat-paginator>

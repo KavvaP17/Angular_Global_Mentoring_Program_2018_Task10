@@ -15,7 +15,7 @@ export class CoursesListComponent implements OnInit {
 
   public coursesArrayEmptyMsg = 'NO DATA, PLEASE CLICK ADD COURSE TO INSERT NEW CORSE';
   public courses$: Observable<ReadonlyArray<Course>>;
-  
+
   constructor(private coursesStore: Store<AppState>) { }
 
   ngOnInit() {

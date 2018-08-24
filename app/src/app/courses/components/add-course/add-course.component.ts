@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { CourseService } from '../../services/course/course.service';
 import { Subscription } from 'rxjs';
 import { LoadingService } from '../../../core/services/loading/loading.service';
+import * as coursesActions from '../../../core/store/courses/courses.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/store/app.state';
+import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-add-course',
@@ -17,11 +21,8 @@ export class AddCourseComponent implements OnInit, OnDestroy {
   public courseDate;
   public courseAuthors = '';
 
-  private createCourseSub: Subscription;
-
   constructor(private router: Router,
-              private courseService: CourseService,
-              private loadingService: LoadingService) { }
+              private coursesStore: Store<AppState>) { }
 
   ngOnInit() {
   }
@@ -31,18 +32,12 @@ export class AddCourseComponent implements OnInit, OnDestroy {
   }
 
   public save() {
-    this.loadingService.setIsLoadingValue(true);
-    this.createCourseSub = this.courseService.createCourse(this.courseTitle, this.courseDate, this.courseDuration, this.courseDescription)
-      .subscribe(() => {
-        this.router.navigate(['courses']);
-        this.loadingService.setIsLoadingValue(false);
-      });
+    const id = Date.now();
+    const course = new Course(id, this.courseTitle, this.courseDate, this.courseDuration, this.courseDescription, false, []);
+    this.coursesStore.dispatch(new coursesActions.AddCourse(course));
+    this.router.navigate(['courses']);
   }
 
-  ngOnDestroy() {
-    if (this.createCourseSub) {
-      this.createCourseSub.unsubscribe();
-    }
-  }
+  ngOnDestroy() {}
 
 }

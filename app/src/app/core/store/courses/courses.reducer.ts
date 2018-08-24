@@ -26,21 +26,58 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
         error
       };
     }
-    case CoursesActionTypes.GET_COURSE: {
-      console.log(CoursesActionTypes.GET_COURSE);
+    case CoursesActionTypes.ADD_COURSE: {
+      return {...state, loading: true};
+    }
+    case CoursesActionTypes.ADD_COURSES_SUCCESS: {
       return {...state};
     }
-    case CoursesActionTypes.ADD_COURSE: {
-      console.log(CoursesActionTypes.ADD_COURSE);
-      return {...state};
+    case CoursesActionTypes.ADD_COURSES_ERROR: {
+      const error = action.payload;
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
     }
     case CoursesActionTypes.UPDATE_COURSE: {
-      console.log(CoursesActionTypes.UPDATE_COURSE);
-      return {...state};
+      return {...state, loading: true};
+    }
+    case CoursesActionTypes.UPDATE_COURSE_SUCCESS: {
+      return {...state, loading: false};
+    }
+    case CoursesActionTypes.UPDATE_COURSE_ERROR: {
+      const error = action.payload;
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
     }
     case CoursesActionTypes.DELETE_COURSE: {
-      console.log(CoursesActionTypes.DELETE_COURSE);
-      return {...state};
+      return {...state,  loading: true};
+    }
+    case CoursesActionTypes.DELETE_COURSE_SUCCESS: {
+      const data = [...(<Array<Course>>action.payload.courses)];
+      return {
+        ...state,
+        data,
+        loading: false,
+        loaded: true,
+        page: action.payload.page,
+        length: action.payload.length
+      };
+    }
+    case CoursesActionTypes.DELETE_COURSE_ERROR: {
+      const error = action.payload;
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
     }
     case CoursesActionTypes.PAGINATION: {
       return {
@@ -53,15 +90,14 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
     case CoursesActionTypes.SEARCH: {
       if (action.payload === state.search) {
         return state;
-      } 
+      }
       return {
         ...state,
         page: 0,
         search: action.payload
-      }
+      };
     }
     default:
-      console.log('Default reducer!!!');
       return state;
   }
 }

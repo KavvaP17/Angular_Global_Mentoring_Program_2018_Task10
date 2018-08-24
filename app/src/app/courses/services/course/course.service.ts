@@ -32,10 +32,8 @@ export class CourseService {
     return this.http.get(url);
   }
 
-  createCourse(title: string, creation: number | string, duration: number, description: string) {
+  createCourse(newCourse: Course) {
     const url = `${this.serverURl}courses`;
-    const id = Date.now();
-    const newCourse = new Course(id, title, creation, duration, description, false, []);
     return this.http.post(url, newCourse, this.httpOptions);
   }
 
@@ -44,8 +42,8 @@ export class CourseService {
     return this.http.get(url);
   }
 
-  updateCourse(id: number, title: string, creation: number, duration: number, description: string, topRated: boolean) {
-    const course = new Course(id, title, creation, duration, description, topRated, []);
+  updateCourse(course: Course) {
+    const id = course.id;
     const url = `${this.serverURl}courses/${id}`;
     return this.http.put(url, course , this.httpOptions);
   }

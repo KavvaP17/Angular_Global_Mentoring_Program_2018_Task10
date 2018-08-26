@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { AppState } from '../../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import * as coursesActions from '../../../core/store/courses/courses.actions';
+import { PaginationService } from '../../services/pagination/pagination.service';
 
 @Component({
   selector: 'app-toolbox',
@@ -16,7 +17,7 @@ export class ToolboxComponent implements OnInit {
 
   constructor(public router: Router,
               private coursesStore: Store<AppState>,
-              private store$: Store<AppState>) { }
+              private paginationService: PaginationService) { }
 
   ngOnInit() {
     this.searchValue
@@ -25,10 +26,17 @@ export class ToolboxComponent implements OnInit {
         if (value && value.length > 2){
           this.coursesStore.dispatch(new coursesActions.Search(value));
           this.coursesStore.dispatch(new coursesActions.GetCourses());
+          this.paginationService.reset();
         } else {
-          // поправить!!!
-          this.coursesStore.dispatch(new coursesActions.Search(''));
-          this.coursesStore.dispatch(new coursesActions.GetCourses());
+          const searchValueSub = this.coursesStore.select( state => state.courses.search)
+            .subscribe((oldSearchValue) => {
+              if (oldSearchValue !== '') {
+                this.coursesStore.dispatch(new coursesActions.Search(''));
+                this.coursesStore.dispatch(new coursesActions.GetCourses());
+                this.paginationService.reset();
+              }
+            })
+          searchValueSub.unsubscribe();
         }
       })
   }

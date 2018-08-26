@@ -18,7 +18,8 @@ export class CoursesEffects {
 
   constructor(private actions$: Actions,
               private store$: Store<AppState>,
-              private courseService: CourseService) {}
+              private courseService: CourseService,
+              private paginationService: PaginationService) {}
 
   @Effect()
   getCourses$: Observable<Action> = this.actions$.pipe(
@@ -40,10 +41,19 @@ export class CoursesEffects {
   @Effect()
   addCourse$: Observable<Action> = this.actions$.pipe(
     ofType(CoursesActions.CoursesActionTypes.ADD_COURSE),
-    switchMap((action: any) => {
-      return this.courseService.createCourse(action.payload).toPromise()
+    withLatestFrom(this.store$),
+    switchMap((value: any) => {
+      const state = value[1].courses;
+      return this.courseService.createCourse(value[0].payload).toPromise()
+      .then(() => {
+        return  this.courseService.getCoursesList(0, state.pageSize, state.search).toPromise();
+      })
       .then((data: CoursesRseponse) => {
-        return new CoursesActions.AddCoursesSuccess();
+        return new CoursesActions.AddCoursesSuccess({
+          courses: data.courses,
+          length: data.length,
+          page: 0
+        });
       })
       .catch(error => new CoursesActions.AddCoursesError(error));
     })
@@ -55,13 +65,10 @@ export class CoursesEffects {
     withLatestFrom(this.store$),
     switchMap((value: any) => {
       const state = value[1].courses;
-      const page = state.page;
       return this.courseService.removeCourse(value[0].payload).toPromise()
       .then(() => {
-        console.log((state.page + 1) * state.pageSize);
-        console.log(state.length);
         if (state.page * state.pageSize >= state.length - 1) {
-          // поправить!!!
+          this.paginationService.previousPage();
           state.page -= 1;
         }
         const start = state.page * state.pageSize;
@@ -81,10 +88,19 @@ export class CoursesEffects {
   @Effect()
   EditCourse$: Observable<Action> = this.actions$.pipe(
     ofType(CoursesActions.CoursesActionTypes.UPDATE_COURSE),
-    switchMap((action: any) => {
-      return this.courseService.updateCourse(action.payload).toPromise()
+    withLatestFrom(this.store$),
+    switchMap((value: any) => {
+      const state = value[1].courses;
+      return this.courseService.updateCourse(value[0].payload).toPromise()
+      .then(() => {
+        const start = state.page * state.pageSize;
+        return this.courseService.getCoursesList(start, state.pageSize, state.search).toPromise();
+      })
       .then((data: CoursesRseponse) => {
-        return new CoursesActions.UpdateCourseSuccess(action.payload);
+        return new CoursesActions.UpdateCourseSuccess({
+          courses: data.courses,
+          page: state.page
+        });
       })
       .catch(error => new CoursesActions.UpdateCourseError(error));
     })

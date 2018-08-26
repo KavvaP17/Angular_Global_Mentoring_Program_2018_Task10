@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-loading [hidden]="!(isLoading | async)"></app-loading>
+<app-loading [hidden]="!(isLoading$ | async)"></app-loading>
 <div>
     <app-breadcrumbs *ngIf="isAuthenticated | async"></app-breadcrumbs>
     <router-outlet></router-outlet>

@@ -40,6 +40,7 @@ export class AddCourse implements Action {
 
 export class AddCoursesSuccess implements Action {
   readonly type = CoursesActionTypes.ADD_COURSES_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export class AddCoursesError implements Action {
@@ -54,7 +55,7 @@ export class UpdateCourse implements Action {
 
 export class UpdateCourseSuccess implements Action {
   readonly type = CoursesActionTypes.UPDATE_COURSE_SUCCESS;
-  constructor(public payload: Course) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdateCourseError implements Action {

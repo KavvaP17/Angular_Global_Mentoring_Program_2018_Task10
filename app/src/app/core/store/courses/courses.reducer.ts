@@ -30,7 +30,15 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
       return {...state, loading: true};
     }
     case CoursesActionTypes.ADD_COURSES_SUCCESS: {
-      return {...state};
+      const data = [...(<Array<Course>>action.payload.courses)];
+      return {
+        ...state,
+        data,
+        loading: false,
+        loaded: true,
+        page: action.payload.page,
+        length: action.payload.length
+      };
     }
     case CoursesActionTypes.ADD_COURSES_ERROR: {
       const error = action.payload;
@@ -45,7 +53,13 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
       return {...state, loading: true};
     }
     case CoursesActionTypes.UPDATE_COURSE_SUCCESS: {
-      return {...state, loading: false};
+      const data = [...(<Array<Course>>action.payload.courses)];
+      return {
+        ...state, 
+        data,
+        loading: false,
+        page: action.payload.page
+      };
     }
     case CoursesActionTypes.UPDATE_COURSE_ERROR: {
       const error = action.payload;
@@ -88,9 +102,6 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
       };
     }
     case CoursesActionTypes.SEARCH: {
-      if (action.payload === state.search) {
-        return state;
-      }
       return {
         ...state,
         page: 0,

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
 import * as coursesActions from '../../../core/store/courses/courses.actions';
+import { PaginationService } from '../../services/pagination/pagination.service';
 
 @Component({
   selector: 'app-pagination',
@@ -21,9 +22,11 @@ export class PaginationComponent implements OnInit, AfterViewInit, OnDestroy {
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private coursesStore: Store<AppState>) { }
+  constructor(private coursesStore: Store<AppState>,
+              private paginationServise: PaginationService) { }
 
   ngOnInit() {
+    this.paginationServise.init(this.paginator);
     this.length = this.coursesStore
       .select( state => state.courses.length);
     this.pageSize = this.coursesStore

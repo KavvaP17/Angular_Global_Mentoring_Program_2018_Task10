@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../core/store/app.state';
+import * as usersActions from '../core/store/auth/users.actions';
 
 
 @Component({
@@ -15,29 +17,22 @@ export class AuthComponent implements OnInit {
   public userPassword = '';
   public hide = true;
 
-  private loginSub: Subscription;
-
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private store: Store<AppState>) { }
 
   ngOnInit() {
   }
 
   login() {
-    if (this.userLogin && this.userPassword) {
-      this.loginSub = this.authService.login(this.userLogin, this.userPassword)
-        .subscribe((res) => {
-          if (res) {
-            this.router.navigate(['/courses']);
-          }
-        });
-    }
+    this.store.dispatch(new usersActions.UserLogin({
+      login: this.userLogin,
+      password: this.userPassword
+    }));
+    this.authService.isAuthenticated().subscribe((isAuth) => {
+      if (isAuth) {
+        this.router.navigate(['/courses']);
+      }
+    })
   }
-
-  ngOnDestroy() {
-    if ( this.loginSub ) {
-      this.loginSub.unsubscribe();
-    }
-  }
-
 }

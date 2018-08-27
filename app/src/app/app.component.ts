@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.initIconsService.init();
-    this.isAuthenticated = this.authService.isAuthenticatedSubject;
+    // this.isAuthenticated = this.authService.isAuthenticatedSubject;
+    this.isAuthenticated = this.authService.isAuthenticated$;
     this.isLoading = this.loadingService.isLoading;
     this.isLoading$ = this.coursesStore
       .select( state => state.courses.loading);

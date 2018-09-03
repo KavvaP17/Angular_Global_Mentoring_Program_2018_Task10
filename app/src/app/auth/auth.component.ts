@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../core/store/app.state';
 import * as usersActions from '../core/store/auth/users.actions';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,26 +14,34 @@ import * as usersActions from '../core/store/auth/users.actions';
 })
 export class AuthComponent implements OnInit {
 
-  public userLogin = '';
-  public userPassword = '';
+  public showErrorMessage = false;
   public hide = true;
+  public authForm: FormGroup;
 
   constructor(private authService: AuthService,
               private router: Router,
-              private store: Store<AppState>) { }
+              private store: Store<AppState>,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.authForm = this.fb.group({
+      login: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   login() {
     this.store.dispatch(new usersActions.UserLogin({
-      login: this.userLogin,
-      password: this.userPassword
+      login: this.authForm.value.login,
+      password: this.authForm.value.password
     }));
     this.authService.isAuthenticated().subscribe((isAuth) => {
       if (isAuth) {
+        this.showErrorMessage = false;
         this.router.navigate(['/courses']);
+      } else {
+        this.showErrorMessage = true;
       }
-    })
+    });
   }
 }

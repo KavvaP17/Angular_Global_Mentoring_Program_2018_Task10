@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthComponent } from './auth.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import { UsersEffects } from '../core/store/auth/users.effects';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('users', usersReducer),
     EffectsModule.forFeature([UsersEffects]),
     MatFormFieldModule,

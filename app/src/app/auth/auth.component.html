@@ -1,15 +1,26 @@
-<div class="auth-container">
+<form class="auth-container"
+    [formGroup]="authForm"
+    (ngSubmit)="login()"
+    novalidate>
+  <div *ngIf="showErrorMessage" class="error-msg-wr">
+    <span class="error-msg">Incorrect login or password</span>
+  </div>
   <mat-form-field>
-    <input matInput placeholder="Login" [(ngModel)]="userLogin">
+    <input matInput placeholder="Login"
+      formControlName="login">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Password" [(ngModel)]="userPassword" [type]="hide ? 'password' : 'text'">
+    <input matInput placeholder="Password"
+      [type]="hide ? 'password' : 'text'"
+      formControlName="password">
     <mat-icon matSuffix (click)="hide = !hide" class="password-icon">
       <mat-icon svgIcon="visibility" *ngIf="hide"></mat-icon>
       <mat-icon svgIcon="visibility-off" *ngIf="!hide"></mat-icon>
     </mat-icon>
   </mat-form-field>
-  <button mat-raised-button color="primary" class="btn-login" (click)="login()">Login</button>
-
-</div>
+  <button mat-raised-button color="primary"
+    class="btn-login"
+    type="submit"
+    [disabled]="!authForm.valid">Login</button>
+</form>

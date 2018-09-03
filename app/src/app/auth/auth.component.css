@@ -11,3 +11,15 @@
 .btn-login{
   margin-top: 30px;
 }
+
+.error-msg-wr{
+  background-color:#f2dee0;
+  border: 1px solid #dca5a3;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.error-msg{
+  color: #ac8180;
+  line-height: 40px;
+  padding: 20px;
+}

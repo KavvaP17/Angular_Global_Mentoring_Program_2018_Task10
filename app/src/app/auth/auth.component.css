@@ -23,3 +23,14 @@
   line-height: 40px;
   padding: 20px;
 }
+
+.input-error-wr {
+  position: relative;
+  height: 20px;
+}
+
+.input-error-msg {
+  position: absolute;
+  top: -15px;
+  color: red;
+}

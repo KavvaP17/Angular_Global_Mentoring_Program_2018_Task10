@@ -31,6 +31,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { PaginationService } from './services/pagination/pagination.service';
 import { EffectsModule } from '../../../node_modules/@ngrx/effects';
 import { CoursesEffects } from '../core/store/courses/courses.effects';
+import { ValidatorsModule } from './validators/validators.module';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { CoursesEffects } from '../core/store/courses/courses.effects';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    ValidatorsModule,
     CoursesRoutingModule
   ],
   providers: [DecimalPipe, SearchPipe, CourseService, DatePipe, PaginationService],

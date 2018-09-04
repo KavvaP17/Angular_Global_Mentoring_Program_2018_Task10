@@ -1,40 +1,76 @@
-<form class="add-course-form" (ngSubmit)="save()">
+<form class="add-course-form"
+  (ngSubmit)="save()"
+  [formGroup]="courseForm"
+  novalidate>
   <mat-form-field class="example-full-width">
     <input matInput placeholder="Title"
-      [(ngModel)]="courseTitle"
+      formControlName="title"
       name="title">
   </mat-form-field>
+  <div class="error-wr">
+      <p class="error-msg"
+        *ngIf="!courseForm.controls.title.valid && courseForm.controls.title.touched">
+        The title must contain between 1 and 50 characters
+      </p>
+  </div>
 
   <mat-form-field class="example-full-width">
     <textarea matInput placeholder="Description"
-      [(ngModel)]="courseDescription"
+      formControlName="description"
       name="description"></textarea>
   </mat-form-field>
+  <div class="error-wr">
+      <p class="error-msg"
+        *ngIf="!courseForm.controls.description.valid && courseForm.controls.description.touched">
+        The description must contain less than 500 characters
+      </p>
+  </div>
 
   <mat-form-field>
     <input matInput [matDatepicker]="picker"
       placeholder="Date"
-      [(ngModel)]="courseDate"
-      name="date">
+      formControlName="date"
+      name="date"
+      appDateValidator>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  <div class="error-wr">
+      <p class="error-msg"
+        *ngIf="!courseForm.controls.date.valid && courseForm.controls.date.touched">
+        Date format should be dd/MM/yyyy
+      </p>
+  </div>
 
   <div class="duration-field">
     <mat-form-field class="example-full-width">
       <input matInput type="number"
         placeholder="Duration (min)"
-        [(ngModel)]="courseDuration"
-        name="duration">
+        formControlName="duration"
+        name="duration"
+        appDurationValidator>
     </mat-form-field>
-    <span class="duration-filtred">{{courseDuration | duration}}</span>
+    <span class="duration-filtred">{{courseForm.controls.duration.value | duration}}</span>
+  </div>
+  <div class="error-wr">
+      <p class="error-msg"
+        *ngIf="!courseForm.controls.duration.valid && courseForm.controls.duration.touched">
+        The value must be a non-negative integer
+      </p>
   </div>
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Authors" [(ngModel)]="courseAuthors" name="authors">
+    <input matInput placeholder="Authors"
+      formControlName="authors"
+      name="authors">
   </mat-form-field>
   <div class="add-course-btns">
-    <button mat-raised-button color="primary" class="add-course-btn" type="submit">Save</button>
-    <button mat-raised-button color="warn" (click)="close()" class="close-add-page">Cancel</button>
+    <button mat-raised-button color="primary"
+      class="add-course-btn"
+      type="submit"
+      [disabled]="!courseForm.valid">Save</button>
+    <button mat-raised-button color="warn"
+      (click)="close()"
+      class="close-add-page">Cancel</button>
   </div>
 </form>

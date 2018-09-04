@@ -16,3 +16,14 @@
 .add-course-btn, .close-add-page {
     margin: 10px;
 }
+
+.error-wr{
+  position: relative;
+  height: 15px;
+}
+
+.error-msg{
+  position: absolute;
+  top: -15px;
+  color: red;
+}

@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { CourseService } from '../../services/course/course.service';
-import { Subscription } from 'rxjs';
-import { LoadingService } from '../../../core/services/loading/loading.service';
 import * as coursesActions from '../../../core/store/courses/courses.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
 import { Course } from '../../models/course.model';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-course',
@@ -15,16 +13,21 @@ import { Course } from '../../models/course.model';
 })
 export class AddCourseComponent implements OnInit, OnDestroy {
 
-  public courseTitle = '';
-  public courseDescription = '';
-  public courseDuration = 0;
-  public courseDate;
   public courseAuthors = '';
+  public courseForm: FormGroup;
 
   constructor(private router: Router,
-              private coursesStore: Store<AppState>) { }
+              private coursesStore: Store<AppState>,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.courseForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', Validators.maxLength(500)],
+      date: [''],
+      duration: [0],
+      authors: ['']
+    });
   }
 
   public close() {
@@ -33,7 +36,8 @@ export class AddCourseComponent implements OnInit, OnDestroy {
 
   public save() {
     const id = Date.now();
-    const course = new Course(id, this.courseTitle, this.courseDate, this.courseDuration, this.courseDescription, false, []);
+    const course = new Course(id, this.courseForm.controls.title.value, this.courseForm.controls.date.value,
+      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, false, []);
     this.coursesStore.dispatch(new coursesActions.AddCourse(course));
     this.router.navigate(['courses']);
   }

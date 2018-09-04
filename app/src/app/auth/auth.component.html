@@ -9,7 +9,9 @@
     <input matInput placeholder="Login"
       formControlName="login">
   </mat-form-field>
-
+  <div class="input-error-wr">
+    <p class="input-error-msg" *ngIf="!authForm.controls.login.valid && authForm.controls.login.touched">Please enter login</p>
+  </div>
   <mat-form-field>
     <input matInput placeholder="Password"
       [type]="hide ? 'password' : 'text'"
@@ -19,6 +21,9 @@
       <mat-icon svgIcon="visibility-off" *ngIf="!hide"></mat-icon>
     </mat-icon>
   </mat-form-field>
+  <div class="input-error-wr">
+    <p class="input-error-msg" *ngIf="!authForm.controls.password.valid && authForm.controls.password.touched">Please enter password</p>
+  </div>
   <button mat-raised-button color="primary"
     class="btn-login"
     type="submit"

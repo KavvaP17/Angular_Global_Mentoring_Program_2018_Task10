@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -35,10 +35,10 @@ export class ToolboxComponent implements OnInit {
                 this.coursesStore.dispatch(new coursesActions.GetCourses());
                 this.paginationService.reset();
               }
-            })
+            });
           searchValueSub.unsubscribe();
         }
-      })
+      });
   }
 
   public openAddCoursePage() {

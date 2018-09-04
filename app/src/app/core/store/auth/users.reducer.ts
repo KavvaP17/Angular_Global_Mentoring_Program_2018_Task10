@@ -22,7 +22,7 @@ export function usersReducer(state = initialUsersState, action: UsersActions): U
     case UsersActionTypes.LOGIN_ERROR: {
         const error = action.payload;
         return {
-            ...state, 
+            ...state,
             loading: false,
             isAuthenticated: false,
             error

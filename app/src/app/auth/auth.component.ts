@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../core/store/app.state';
 import * as usersActions from '../core/store/auth/users.actions';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -22,7 +22,6 @@ export class AuthComponent implements OnInit {
               private router: Router,
               private store: Store<AppState>,
               private fb: FormBuilder) { }
-
   ngOnInit() {
     this.authForm = this.fb.group({
       login: ['', Validators.required],
@@ -31,6 +30,7 @@ export class AuthComponent implements OnInit {
   }
 
   login() {
+    console.log(this.authForm);
     this.store.dispatch(new usersActions.UserLogin({
       login: this.authForm.value.login,
       password: this.authForm.value.password

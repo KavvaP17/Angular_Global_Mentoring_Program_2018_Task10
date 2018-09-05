@@ -16,7 +16,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   public id;
   public topRated = false;
-  public courseForm: FormGroup;
+  public editCourseForm: FormGroup;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -24,17 +24,24 @@ export class EditCourseComponent implements OnInit, OnDestroy {
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.editCourseForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', Validators.maxLength(500)],
+      date: [''],
+      duration: [0],
+      authors: [[]]
+    });
     this.activatedRoute.params.subscribe((params: Params) => {
       this.id = +params.id;
       this.coursesStore
-        .select( state => state.courses.data)
-        .subscribe((courses: Course[]) => {
-          const course = courses.find((item) => item.id === this.id);
+        .select( state => state.courses.editedCourse)
+        .subscribe((editedCourse: any) => {
+          const course = editedCourse ? editedCourse.course : null;
           if (course) {
              const courseDate = (+course.creation) ? new FormControl(new Date(+course.creation))
                                                 : new FormControl(new Date(Date.parse(String(course.creation))));
 
-            this.courseForm = this.fb.group({
+            this.editCourseForm = this.fb.group({
               title: [course.title, [Validators.required, Validators.maxLength(50)]],
               description: [course.description, Validators.maxLength(500)],
               date: courseDate,
@@ -43,7 +50,8 @@ export class EditCourseComponent implements OnInit, OnDestroy {
             });
             this.topRated = course.topRated;
           } else {
-            this.router.navigate(['courses']);
+            this.coursesStore.dispatch(new coursesActions.GetCourse(this.id));
+            // this.router.navigate(['courses']);
           }
         });
     });
@@ -54,9 +62,9 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    const course = new Course(this.id, this.courseForm.controls.title.value, +this.courseForm.controls.date.value,
-      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, this.topRated,
-      this.courseForm.controls.authors.value);
+    const course = new Course(this.id, this.editCourseForm.controls.title.value, +this.editCourseForm.controls.date.value,
+      this.editCourseForm.controls.duration.value, this.editCourseForm.controls.description.value, this.topRated,
+      this.editCourseForm.controls.authors.value);
       this.coursesStore.dispatch(new coursesActions.UpdateCourse(course));
     this.router.navigate(['courses']);
   }

@@ -9,6 +9,7 @@ export interface CoursesState {
   readonly pageSize: number;
   readonly search: string;
   readonly length: number;
+  readonly editedCourse: Course 
 }
 
 export const initialCourseState: CoursesState = {
@@ -19,5 +20,6 @@ export const initialCourseState: CoursesState = {
   page: 0,
   pageSize: 5,
   search: '',
-  length: 0
+  length: 0,
+  editedCourse: null
 };

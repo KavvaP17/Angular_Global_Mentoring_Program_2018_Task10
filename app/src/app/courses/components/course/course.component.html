@@ -17,7 +17,7 @@
               </div>
               <div class="course-btns">
                 <div class="course-edit-btn">
-                  <a mat-icon-button color="primary" class="course-panel-btn" [routerLink]="[course.id]">
+                  <a mat-icon-button color="primary" class="course-panel-btn" (click)="editCourse(course.id)" [routerLink]="[course.id]">
                     <mat-icon svgIcon="edit" class="course-panel-icon-edit"></mat-icon>
                   </a>
                 </div>

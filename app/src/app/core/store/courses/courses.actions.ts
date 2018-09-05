@@ -6,6 +6,9 @@ export enum CoursesActionTypes {
   GET_COURSES = '[Courses] GET_COURSES',
   GET_COURSES_SUCCESS = '[Courses] GET_COURSES_SUCCESS',
   GET_COURSES_ERROR = '[Courses] GET_COURSES_ERROR',
+  GET_COURSE = '[Courses] GET_COURSE',
+  GET_COURSE_SUCCESS = '[Courses] GET_COURSE_SUCCESS',
+  GET_COURSE_ERROR = '[Courses] GET_COURSE_ERROR',
   ADD_COURSE = '[Courses] ADD_COURSE',
   ADD_COURSES_SUCCESS = '[Courses] ADD_COURSES_SUCCESS',
   ADD_COURSES_ERROR = '[Courses] ADD_COURSES_ERROR',
@@ -30,6 +33,21 @@ export class GetCoursesSuccess implements Action {
 
 export class GetCoursesError implements Action {
   readonly type = CoursesActionTypes.GET_COURSES_ERROR;
+  constructor(public payload: Error | string) {}
+}
+
+export class GetCourse implements Action {
+  readonly type = CoursesActionTypes.GET_COURSE;
+  constructor(public payload: number) {}
+}
+
+export class GetCourseSuccess implements Action {
+  readonly type = CoursesActionTypes.GET_COURSE_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GetCourseError implements Action {
+  readonly type = CoursesActionTypes.GET_COURSE_ERROR;
   constructor(public payload: Error | string) {}
 }
 
@@ -92,6 +110,9 @@ export type CoursesActions =
   GetCourses
   | GetCoursesSuccess
   | GetCoursesError
+  | GetCourse
+  | GetCourseSuccess
+  | GetCourseError
   | AddCourse
   | AddCoursesSuccess
   | AddCoursesError

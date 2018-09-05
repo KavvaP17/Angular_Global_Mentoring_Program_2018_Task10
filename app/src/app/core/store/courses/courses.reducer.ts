@@ -26,6 +26,26 @@ export function coursesReducer(state = initialCourseState, action: CoursesAction
         error
       };
     }
+    case CoursesActionTypes.GET_COURSE: {
+      return {...state, loading: true};
+    }
+    case CoursesActionTypes.GET_COURSE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        editedCourse: action.payload
+      };
+    }
+    case CoursesActionTypes.GET_COURSE_ERROR: {
+      const error = action.payload;
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
+    }
     case CoursesActionTypes.ADD_COURSE: {
       return {...state, loading: true};
     }

@@ -3,6 +3,11 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup} from '
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+export interface Option {
+  id: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-authors',
   templateUrl: './authors.component.html',
@@ -21,23 +26,43 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
   @Input() items = [];
   public myControl = new FormControl();
   public selectedAuthors = [];
-  public options = [
-    'Adam Smit',
-    'Johr Qwert',
-    'Piter Pen',
-    'Den Broun'
+  public authors = [
+    {id: 1, firstName: 'Adam', lastName:  'Smit'},
+    {id: 2, firstName: 'Johr', lastName:  'Qwert'},
+    {id: 3, firstName: 'Piter', lastName:  'Pen'},
+    {id: 4, firstName: 'Den', lastName:  'Broun'},
   ];
-  public filteredOptions: Observable<string[]>;
+  public options = this.authorsToOptions(this.authors);
+  public filteredOptions: Observable<Option[]>;
 
   constructor() { }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
-        startWith<string>(''),
+        startWith<string | Option>(''),
+        map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
       this.setValue(this.items);
+  }
+
+  private _filter(name: string): Option[] {
+    const filterValue = name.toLowerCase();
+    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  displayFn(option?: Option): string | undefined {
+    return option ? option.name : undefined;
+  }
+
+  private authorsToOptions(options): Option[] {
+    return this.authors.map(author => {
+      return {
+        id: author.id,
+        name: `${author.firstName} ${author.lastName}`
+      }
+    });
   }
 
   onChange(value) {}
@@ -60,7 +85,7 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any) {
     if (value && value.length > 0) {
-      this.selectedAuthors.push(value);
+      this.selectedAuthors = value;
     }
   }
 
@@ -76,26 +101,20 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  displayFn(author?: string): string | undefined {
-    return author ? author : undefined;
-  }
-
-  private _filter(name: string): string[] {
-    const filterValue = name.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  }
-
   delete(author) {
-    this.selectedAuthors = this.selectedAuthors.filter(item => item !== author);
+    this.selectedAuthors = this.selectedAuthors.filter(item => item.id !== author.id);
     this.onChange(this.selectedAuthors);
   }
 
   optionSelected(selectedValue) {
     this.myControl.setValue('');
-    this.value = selectedValue.option.value;
+    this.selectedAuthors.push(this.getAuthorById(selectedValue.option.value.id));
     this.onChange(this.value);
     this.onTouched();
+  }
+
+  private getAuthorById(id) {
+    return this.authors.find(author => author.id === id)
   }
 
 }

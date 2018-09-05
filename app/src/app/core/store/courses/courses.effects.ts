@@ -11,6 +11,8 @@ import { CourseService } from '../../../courses/services/course/course.service';
 import { CoursesRseponse } from '../../../courses/models/courses-response.interface';
 import { AppState } from '../app.state';
 import { PaginationService } from '../../../courses/services/pagination/pagination.service';
+import { Course } from '../../../courses/models/course.model';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -19,7 +21,8 @@ export class CoursesEffects {
   constructor(private actions$: Actions,
               private store$: Store<AppState>,
               private courseService: CourseService,
-              private paginationService: PaginationService) {}
+              private paginationService: PaginationService,
+              private router: Router) {}
 
   @Effect()
   getCourses$: Observable<Action> = this.actions$.pipe(
@@ -34,7 +37,22 @@ export class CoursesEffects {
       .then((data: CoursesRseponse) => {
         return new CoursesActions.GetCoursesSuccess({courses: data.courses, length: data.length});
       })
-      .catch(error => new CoursesActions.GetCoursesSuccess(error));
+      .catch(error => new CoursesActions.GetCoursesError(error));
+    })
+  );
+
+  @Effect()
+  getCourse$: Observable<Action> = this.actions$.pipe(
+    ofType(CoursesActions.CoursesActionTypes.GET_COURSE),
+    switchMap((action: any) => {
+      return this.courseService.getCourseById(action.payload).toPromise()
+      .then((data: Course) => {
+        return new CoursesActions.GetCourseSuccess({course: data});
+      })
+      .catch(error => {
+        this.router.navigate(['courses']);
+        return new CoursesActions.GetCourseError(error)
+      });
     })
   );
 

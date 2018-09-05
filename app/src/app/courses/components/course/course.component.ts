@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 
 import { Course } from '../../models/course.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/store/app.state';
+import * as coursesActions from '../../../core/store/courses/courses.actions';
 
 @Component({
   selector: 'app-course',
@@ -15,7 +18,8 @@ export class CourseComponent implements OnInit {
   @Output() deleteCourse = new EventEmitter<number>();
   public randomUrl: String;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private coursesStore: Store<AppState>) { }
 
   ngOnInit() {
     const random = Math.ceil(Math.random() * 100);
@@ -34,6 +38,10 @@ export class CourseComponent implements OnInit {
         this.deleteCourse.emit(this.course.id);
       }
     });
+  }
+
+  public editCourse(id) {
+    this.coursesStore.dispatch(new coursesActions.GetCourse(id));
   }
 
   public changeRated(event) {

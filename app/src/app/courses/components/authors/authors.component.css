@@ -1,0 +1,24 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+.example-full-width {
+  width: 100%;
+}
+.authors-input {
+  width: 100%;
+}
+.author-list{
+  display: flex;
+  flex-wrap: wrap;
+}
+.author-wr {
+  display: inline-block;
+  margin: 5px;
+}
+.author-elem {
+  display: inline-block;
+  box-shadow: 0 0 5px #a192a1;
+}
+

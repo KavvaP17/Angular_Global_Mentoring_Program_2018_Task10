@@ -26,7 +26,7 @@ export class AddCourseComponent implements OnInit, OnDestroy {
       description: ['', Validators.maxLength(500)],
       date: [''],
       duration: [0],
-      authors: ['']
+      authors: [[]]
     });
   }
 
@@ -37,7 +37,7 @@ export class AddCourseComponent implements OnInit, OnDestroy {
   public save() {
     const id = Date.now();
     const course = new Course(id, this.courseForm.controls.title.value, this.courseForm.controls.date.value,
-      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, false, []);
+      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, false, this.courseForm.controls.authors.value);
     this.coursesStore.dispatch(new coursesActions.AddCourse(course));
     this.router.navigate(['courses']);
   }

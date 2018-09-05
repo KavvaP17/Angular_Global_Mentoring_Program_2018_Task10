@@ -1,0 +1,24 @@
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+      <input type="text"
+        placeholder="Authors"
+        aria-label="Authors"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="optionSelected($event)">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+  </mat-form-field>
+  <ul class="author-list">
+      <li *ngFor="let author of selectedAuthors" class="author-wr">
+        <div class="author-elem">
+          <mat-icon svgIcon="author"></mat-icon>
+          <span>{{author}}</span>
+          <mat-icon svgIcon="close" (click)="delete(author)"></mat-icon>
+        </div>
+      </li>
+    </ul>
+</form>

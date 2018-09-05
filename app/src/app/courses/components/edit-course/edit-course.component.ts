@@ -39,7 +39,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
               description: [course.description, Validators.maxLength(500)],
               date: courseDate,
               duration: [course.duration],
-              authors: ['']
+              authors: [course.authors]
             });
             this.topRated = course.topRated;
           } else {
@@ -55,7 +55,8 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   save() {
     const course = new Course(this.id, this.courseForm.controls.title.value, +this.courseForm.controls.date.value,
-      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, this.topRated, []);
+      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, this.topRated,
+      this.courseForm.controls.authors.value);
       this.coursesStore.dispatch(new coursesActions.UpdateCourse(course));
     this.router.navigate(['courses']);
   }

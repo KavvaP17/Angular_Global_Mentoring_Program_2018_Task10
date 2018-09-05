@@ -10,6 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { StoreModule } from '@ngrx/store';
 import { coursesReducer } from '../core/store/courses/courses.reducer';
 
@@ -32,6 +33,7 @@ import { PaginationService } from './services/pagination/pagination.service';
 import { EffectsModule } from '../../../node_modules/@ngrx/effects';
 import { CoursesEffects } from '../core/store/courses/courses.effects';
 import { ValidatorsModule } from './validators/validators.module';
+import { AuthorsComponent } from './components/authors/authors.component';
 
 @NgModule({
   imports: [
@@ -48,6 +50,7 @@ import { ValidatorsModule } from './validators/validators.module';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     ValidatorsModule,
     CoursesRoutingModule
@@ -65,7 +68,8 @@ import { ValidatorsModule } from './validators/validators.module';
     DialogComponent,
     AddCourseComponent,
     EditCourseComponent,
-    PaginationComponent
+    PaginationComponent,
+    AuthorsComponent
   ],
   entryComponents: [DialogComponent],
   exports: [CoursesComponent]

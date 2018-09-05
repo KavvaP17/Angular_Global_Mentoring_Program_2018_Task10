@@ -47,6 +47,12 @@ export class InitIconsService {
     this.iconRegistry.addSvgIcon(
         'visibility-off',
         this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/visibilityOff.svg'));
+    this.iconRegistry.addSvgIcon(
+        'author',
+        this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/author.svg'));
+    this.iconRegistry.addSvgIcon(
+        'close',
+        this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close.svg'));
   }
 
 }

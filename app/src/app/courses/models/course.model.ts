@@ -8,6 +8,7 @@ export class Course implements CourseInterface {
     public duration: number,
     public description: string,
     public topRated: boolean,
-    public authors: Array<Object>
+    public authors: Array<Object>,
+    public img: string
   ) {}
 }

@@ -21,10 +21,7 @@ export class CourseComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private coursesStore: Store<AppState>) { }
 
-  ngOnInit() {
-    const random = Math.ceil(Math.random() * 100);
-    this.randomUrl = `https://loremflickr.com/300/200?random=${random}`;
-  }
+  ngOnInit() { }
 
   public delete(event) {
     event.stopPropagation();

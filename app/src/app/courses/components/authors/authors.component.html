@@ -5,7 +5,8 @@
         aria-label="Authors"
         matInput
         [formControl]="myControl"
-        [matAutocomplete]="auto">
+        [matAutocomplete]="auto"
+        (focusout)="markInputAsDirty()">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="optionSelected($event)">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option.name}}
@@ -15,9 +16,9 @@
   <ul class="author-list">
       <li *ngFor="let author of selectedAuthors" class="author-wr">
         <div class="author-elem">
-          <mat-icon svgIcon="author"></mat-icon>
-          <span>{{author.firstName}} {{author.lastName}}</span>
-          <mat-icon svgIcon="close" (click)="delete(author)"></mat-icon>
+          <mat-icon svgIcon="author" class="author-icon"></mat-icon>
+          <span class="author-name">{{author.firstName}} {{author.lastName}}</span>
+          <mat-icon svgIcon="close" (click)="delete(author)" class="close-icon"></mat-icon>
         </div>
       </li>
     </ul>

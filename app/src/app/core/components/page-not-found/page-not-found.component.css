@@ -1,5 +1,15 @@
-.page-not-found-img-wr{
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
+.page-not-found-img-wr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.back-btn {
+  margin-top: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
 }

@@ -5,7 +5,7 @@ import { Action, Store } from '@ngrx/store';
 import * as CoursesActions from './courses.actions';
 
 import { Observable } from 'rxjs';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, withLatestFrom, delay } from 'rxjs/operators';
 
 import { CourseService } from '../../../courses/services/course/course.service';
 import { CoursesRseponse } from '../../../courses/models/courses-response.interface';
@@ -33,7 +33,7 @@ export class CoursesEffects {
       const start = state.page * state.pageSize;
       const count = state.pageSize;
       const search = state.search;
-      return this.courseService.getCoursesList(start, count, search).toPromise()
+      return this.courseService.getCoursesList(start, count, search).pipe(delay(500)).toPromise()
       .then((data: CoursesRseponse) => {
         return new CoursesActions.GetCoursesSuccess({courses: data.courses, length: data.length});
       })
@@ -45,7 +45,7 @@ export class CoursesEffects {
   getCourse$: Observable<Action> = this.actions$.pipe(
     ofType(CoursesActions.CoursesActionTypes.GET_COURSE),
     switchMap((action: any) => {
-      return this.courseService.getCourseById(action.payload).toPromise()
+      return this.courseService.getCourseById(action.payload).pipe(delay(500)).toPromise()
       .then((data: Course) => {
         return new CoursesActions.GetCourseSuccess({course: data});
       })
@@ -62,7 +62,7 @@ export class CoursesEffects {
     withLatestFrom(this.store$),
     switchMap((value: any) => {
       const state = value[1].courses;
-      return this.courseService.createCourse(value[0].payload).toPromise()
+      return this.courseService.createCourse(value[0].payload).pipe(delay(500)).toPromise()
       .then(() => {
         return  this.courseService.getCoursesList(0, state.pageSize, state.search).toPromise();
       })
@@ -83,7 +83,7 @@ export class CoursesEffects {
     withLatestFrom(this.store$),
     switchMap((value: any) => {
       const state = value[1].courses;
-      return this.courseService.removeCourse(value[0].payload).toPromise()
+      return this.courseService.removeCourse(value[0].payload).pipe(delay(500)).toPromise()
       .then(() => {
         if (state.page * state.pageSize >= state.length - 1) {
           this.paginationService.previousPage();
@@ -112,7 +112,7 @@ export class CoursesEffects {
       return this.courseService.updateCourse(value[0].payload).toPromise()
       .then(() => {
         const start = state.page * state.pageSize;
-        return this.courseService.getCoursesList(start, state.pageSize, state.search).toPromise();
+        return this.courseService.getCoursesList(start, state.pageSize, state.search).pipe(delay(500)).toPromise();
       })
       .then((data: CoursesRseponse) => {
         return new CoursesActions.UpdateCourseSuccess({

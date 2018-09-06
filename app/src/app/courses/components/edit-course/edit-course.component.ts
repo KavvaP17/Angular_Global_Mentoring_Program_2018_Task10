@@ -16,6 +16,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   public id;
   public topRated = false;
+  public img = '';
   public editCourseForm: FormGroup;
 
   constructor(private router: Router,
@@ -49,6 +50,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
               authors: [course.authors]
             });
             this.topRated = course.topRated;
+            this.img = course.img;
           } else {
             this.coursesStore.dispatch(new coursesActions.GetCourse(this.id));
             // this.router.navigate(['courses']);
@@ -64,7 +66,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   save() {
     const course = new Course(this.id, this.editCourseForm.controls.title.value, +this.editCourseForm.controls.date.value,
       this.editCourseForm.controls.duration.value, this.editCourseForm.controls.description.value, this.topRated,
-      this.editCourseForm.controls.authors.value);
+      this.editCourseForm.controls.authors.value, this.img);
       this.coursesStore.dispatch(new coursesActions.UpdateCourse(course));
     this.router.navigate(['courses']);
   }

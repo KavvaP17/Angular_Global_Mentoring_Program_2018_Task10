@@ -2,6 +2,9 @@ import { Component, OnInit, forwardRef, Input } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/store/app.state';
+import * as authorsActions from '../../../core/store/authors/authors.actions';
 
 export interface Option {
   id: number;
@@ -35,9 +38,16 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
   public options = this.authorsToOptions(this.authors);
   public filteredOptions: Observable<Option[]>;
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new authorsActions.GetAuthors());
+    this.store.select( state => state.authors.data)
+      .subscribe((authors: any) => {
+        console.log(authors);
+        this.authors = authors;
+        this.options = this.authorsToOptions(this.authors);
+      });
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith<string | Option>(''),
@@ -61,7 +71,7 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
       return {
         id: author.id,
         name: `${author.firstName} ${author.lastName}`
-      }
+      };
     });
   }
 
@@ -76,6 +86,7 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
     if (newValue && newValue.length) {
       this.selectedAuthors.push(newValue);
       this.onChange(this.selectedAuthors);
+      this.onTouched();
     }
   }
 
@@ -104,6 +115,7 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
   delete(author) {
     this.selectedAuthors = this.selectedAuthors.filter(item => item.id !== author.id);
     this.onChange(this.selectedAuthors);
+    this.onTouched();
   }
 
   optionSelected(selectedValue) {
@@ -114,7 +126,10 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
   }
 
   private getAuthorById(id) {
-    return this.authors.find(author => author.id === id)
+    return this.authors.find(author => author.id === id);
+  }
+  public markInputAsDirty() {
+    this.onTouched();
   }
 
 }

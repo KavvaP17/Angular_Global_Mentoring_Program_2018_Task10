@@ -30,7 +30,6 @@ export class AuthComponent implements OnInit {
   }
 
   login() {
-    console.log(this.authForm);
     this.store.dispatch(new usersActions.UserLogin({
       login: this.authForm.value.login,
       password: this.authForm.value.password

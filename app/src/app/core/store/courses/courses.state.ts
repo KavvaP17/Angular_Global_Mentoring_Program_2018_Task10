@@ -9,7 +9,7 @@ export interface CoursesState {
   readonly pageSize: number;
   readonly search: string;
   readonly length: number;
-  readonly editedCourse: Course 
+  readonly editedCourse: Course;
 }
 
 export const initialCourseState: CoursesState = {

@@ -18,11 +18,11 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               private store: Store<AppState>,
-              private router: Router) { 
+              private router: Router) {
     this.isAuthenticated$ = this.store.select((state: any) => {
       if (state.users){
-        return state.users.isAuthenticated
-      } 
+        return state.users.isAuthenticated;
+      }
       return false;
     });
   }
@@ -32,11 +32,11 @@ export class AuthService {
     return this.http.get(url).pipe(
       map((users: Array<User>) => {
         const user = users.find((item) => {
-          return item.login === login && item.password === password; 
+          return item.login === login && item.password === password;
         });
         return user;
       })
-    )
+    );
   }
 
   logout(): void {
@@ -51,7 +51,7 @@ export class AuthService {
         this.http.get(url).pipe(
           map((users: Array<User>) => {
             const user = users.find((item) => {
-              return item.fakeToken === localStorage.getItem('token') ; 
+              return item.fakeToken === localStorage.getItem('token') ;
             });
             if (user) {
               this.store.dispatch(new usersActions.UserLogin({login: user.login, password: user.password}));
@@ -66,7 +66,7 @@ export class AuthService {
       } else {
         return isAuth;
       }
-    }))
+    }));
   }
 
 }

@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { StoreModule } from '@ngrx/store';
 import { coursesReducer } from '../core/store/courses/courses.reducer';
+import { authorsReducer } from '../core/store/authors/authors.reducer';
 
 import { CoursesComponent } from './courses.component';
 import { ToolboxComponent } from './components/toolbox/toolbox.component';
@@ -32,6 +33,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { PaginationService } from './services/pagination/pagination.service';
 import { EffectsModule } from '../../../node_modules/@ngrx/effects';
 import { CoursesEffects } from '../core/store/courses/courses.effects';
+import { AuthorsEffects } from '../core/store/authors/authors.effects';
 import { ValidatorsModule } from './validators/validators.module';
 import { AuthorsComponent } from './components/authors/authors.component';
 
@@ -39,7 +41,8 @@ import { AuthorsComponent } from './components/authors/authors.component';
   imports: [
     CommonModule,
     StoreModule.forFeature('courses', coursesReducer),
-    EffectsModule.forFeature([CoursesEffects]),
+    StoreModule.forFeature('authors', authorsReducer),
+    EffectsModule.forFeature([CoursesEffects, AuthorsEffects]),
     FormsModule,
     BrowserAnimationsModule,
     MatButtonModule,

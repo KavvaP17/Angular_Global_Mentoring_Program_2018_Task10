@@ -58,7 +58,14 @@
         </p>
     </div>
 
-    <app-authors formControlName="authors"></app-authors>
+    <app-authors formControlName="authors"
+      appAuthorsValidator></app-authors>
+    <div class="error-wr">
+        <p class="error-msg"
+          *ngIf="!editCourseForm.controls.authors.valid && editCourseForm.controls.authors.touched">
+          The course must has an author
+        </p>
+    </div>
 
     <div class="add-course-btns">
       <button mat-raised-button color="primary"

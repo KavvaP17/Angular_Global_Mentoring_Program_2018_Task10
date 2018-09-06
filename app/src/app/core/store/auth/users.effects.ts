@@ -6,18 +6,15 @@ import { User } from '../../../auth/models/user.model';
 import * as UsersActions from './users.actions';
 
 import { Observable } from 'rxjs';
-import { switchMap} from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/services/auth/auth.service';
-import { Router } from '@angular/router';
-
 
 @Injectable()
 export class UsersEffects {
 
   constructor(private actions$: Actions,
-              private authService: AuthService,
-              private router: Router) {}
+              private authService: AuthService) {}
 
   @Effect()
   login$: Observable<Action> = this.actions$.pipe(

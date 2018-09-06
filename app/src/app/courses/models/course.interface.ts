@@ -6,4 +6,5 @@ export interface CourseInterface {
   description: string;
   topRated: boolean;
   authors: Array<Object>;
+  img: string;
 }

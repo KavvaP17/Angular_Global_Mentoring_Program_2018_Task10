@@ -36,8 +36,11 @@ export class AddCourseComponent implements OnInit, OnDestroy {
 
   public save() {
     const id = Date.now();
+    const random = Math.ceil(Math.random() * 100);
+    const randomUrl = `https://loremflickr.com/300/200?random=${random}`;
     const course = new Course(id, this.courseForm.controls.title.value, this.courseForm.controls.date.value,
-      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, false, this.courseForm.controls.authors.value);
+      this.courseForm.controls.duration.value, this.courseForm.controls.description.value, false,
+      this.courseForm.controls.authors.value, randomUrl);
     this.coursesStore.dispatch(new coursesActions.AddCourse(course));
     this.router.navigate(['courses']);
   }

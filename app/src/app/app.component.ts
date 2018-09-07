@@ -16,19 +16,20 @@ export class AppComponent implements OnInit {
   public isAuthenticated;
   public isLoading;
   public isLoading$: Observable<boolean>;
+  public isLoadingAuthors$: Observable<boolean>;
 
   constructor(private initIconsService: InitIconsService,
               private authService: AuthService,
               private loadingService: LoadingService,
-              private coursesStore: Store<AppState>) {}
+              private store: Store<AppState>) {}
 
   ngOnInit() {
     this.initIconsService.init();
-    // this.isAuthenticated = this.authService.isAuthenticatedSubject;
     this.isAuthenticated = this.authService.isAuthenticated$;
-    this.isLoading = this.loadingService.isLoading;
-    this.isLoading$ = this.coursesStore
+    this.isLoading$ = this.store
       .select( state => state.courses.loading);
+    this.isLoadingAuthors$ = this.store
+      .select( state => state.authors.loading);
   }
 
 }

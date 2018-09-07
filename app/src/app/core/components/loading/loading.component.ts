@@ -10,8 +10,6 @@ export class LoadingComponent implements OnInit {
   public mode = 'indeterminate';
   constructor() { }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
 }

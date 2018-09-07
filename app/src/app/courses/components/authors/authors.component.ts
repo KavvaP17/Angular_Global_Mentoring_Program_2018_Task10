@@ -29,12 +29,7 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
   @Input() items = [];
   public myControl = new FormControl();
   public selectedAuthors = [];
-  public authors = [
-    {id: 1, firstName: 'Adam', lastName:  'Smit'},
-    {id: 2, firstName: 'Johr', lastName:  'Qwert'},
-    {id: 3, firstName: 'Piter', lastName:  'Pen'},
-    {id: 4, firstName: 'Den', lastName:  'Broun'},
-  ];
+  public authors = [];
   public options = this.authorsToOptions(this.authors);
   public filteredOptions: Observable<Option[]>;
 
@@ -44,17 +39,16 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
     this.store.dispatch(new authorsActions.GetAuthors());
     this.store.select( state => state.authors.data)
       .subscribe((authors: any) => {
-        console.log(authors);
         this.authors = authors;
         this.options = this.authorsToOptions(this.authors);
-      });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith<string | Option>(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.options.slice())
-      );
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith<string | Option>(''),
+          map(value => typeof value === 'string' ? value : value.name),
+          map(name => name ? this._filter(name) : this.options.slice())
+        );
       this.setValue(this.items);
+      });
   }
 
   private _filter(name: string): Option[] {

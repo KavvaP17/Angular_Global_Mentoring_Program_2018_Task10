@@ -30,4 +30,4 @@ const routes: Routes = [
     ],
     exports: [RouterModule]
   })
-  export class CoursesRoutingModule { }
+  export class CoursesRoutingModule {}

@@ -51,7 +51,7 @@ export class AuthService {
         this.http.get(url).pipe(
           map((users: Array<User>) => {
             const user = users.find((item) => {
-              return item.fakeToken === localStorage.getItem('token') ;
+              return item.fakeToken === localStorage.getItem('token');
             });
             if (user) {
               this.store.dispatch(new usersActions.UserLogin({login: user.login, password: user.password}));
